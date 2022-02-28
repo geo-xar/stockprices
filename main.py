@@ -25,9 +25,6 @@ def main():
 
     workbook.close()
 
-    #for stock in stocks_list:
-    #    print(f"{stock.symbol}, {stock.name}, {stock.price}")
-
 
 if __name__ == '__main__':
     main()
