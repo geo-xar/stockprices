@@ -19,9 +19,9 @@ def main():
     worksheet = workbook.add_worksheet()
 
     for row_num, stock in enumerate(stocks_list):
-        worksheet.write('A' + str(row_num), stock.symbol)
-        worksheet.write('B' + str(row_num), stock.name)
-        worksheet.write('C' + str(row_num), str(stock.price))
+        worksheet.write('A' + str(row_num + 1), stock.symbol)
+        worksheet.write('B' + str(row_num + 1), stock.name)
+        worksheet.write('C' + str(row_num + 1), str(stock.price))
 
     workbook.close()
 
