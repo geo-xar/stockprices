@@ -3,19 +3,22 @@
 
 import xlsxwriter
 import sys
+from datetime import datetime
 from StockPrices import StockPrices
 
 def main():
     stockPrices = StockPrices(sys.argv)
 
-    stock_symbols = ['MTTR','AFRM','PYPL','SHOP','FB','LMND','SQ','BYND','PLTR','NFLX','HOOD',
-                     'TSLA','COIN','SOFI','ETSY','ZM','HNST','BABA','WBA','SAM','ADSK','AMD',
-                     'NVDA','TTCF','ADBE','GS','SBUX','JPM','JWN','OTLY','NKE','AMZN','AAPL',
-                     'DKNG','GOOGL','MSFT','BRK-B','ABNB','DIS','KO','V','ENPH','NET','CRSR']
+    stock_symbols = ['MTTR','AFRM','SHOP','LMND','PYPL','FB','BYND','ZM','PLTR','NFLX','COIN','HOOD','SOFI',
+                     'BABA','AMD','HNST','TSLA','SQ','ADSK','OTLY','SAM','JPM','NVDA','GS','ADBE','ABNB',
+                     'WBA','NKE','DKNG','AMZN','SBUX','TTCF','ETSY','DIS','V','MSFT','AAPL','GOOGL',
+                     'BRK-B','NET','KO','CRSR','JWN','ENPH']
 
     stocks_list = stockPrices.request_stock_prices(stock_symbols)
 
-    workbook = xlsxwriter.Workbook('Stocks.xlsx')
+    dateTimeObj = datetime.now()
+    dateTimeStr = str(dateTimeObj.year) + 'y' + str(dateTimeObj.month) + 'm' + str(dateTimeObj.day) + 'd' + str(dateTimeObj.hour) + 'h' + str(dateTimeObj.minute) + 'm' + str(dateTimeObj.second) + 's'
+    workbook = xlsxwriter.Workbook('Stocks' + dateTimeStr + '.xlsx')
     worksheet = workbook.add_worksheet()
 
     for row_num, stock in enumerate(stocks_list):
