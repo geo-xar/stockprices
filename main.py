@@ -16,10 +16,11 @@ def add_zero_prefix_if_less_than_ten(integer):
 def main():
     stockPrices = StockPrices(sys.argv)
 
-    stock_symbols = ['MTTR','AFRM','SHOP','PYPL','FB','SOFI','HNST','OTLY','NFLX','ZM','BYND','LMND','DKNG',
-                     'ETSY','PLTR','COIN','HOOD','ADSK','ADBE','SAM','BABA','WBA','SBUX','AMD','TTCF','GS',
-                     'JPM','NKE','DIS','TSLA','SQ','MSFT','CRSR','KO','AAPL','GOOGL','AMZN','V','ABNB','NVDA',
-                     'BRK-B','NET','JWN','ENPH']
+    stock_symbols = ['SHOP','PYPL','FB','HNST','OTLY','NFLX','ZM','BYND','DKNG',
+                     'ETSY','PLTR','COIN','ADBE','SAM','WBA','SBUX','AMD','TTCF',
+                     'GS','JPM','NKE','DIS','TSLA','SQ','MSFT','CRSR','KO','AAPL',
+                     'GOOGL','AMZN','V','ABNB','NVDA','BRK-B','NET','JWN','ENPH',
+                     'TTD','W','RDFN','CSCO']
 
     stocks_list = stockPrices.request_stock_prices(stock_symbols)
 
