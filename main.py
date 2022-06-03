@@ -16,11 +16,10 @@ def add_zero_prefix_if_less_than_ten(integer):
 def main():
     stockPrices = StockPrices(sys.argv)
 
-    stock_symbols = ['SHOP','PYPL','FB','HNST','OTLY','NFLX','ZM','BYND','DKNG',
-                     'ETSY','PLTR','COIN','ADBE','SAM','WBA','SBUX','AMD','TTCF',
-                     'GS','JPM','NKE','DIS','TSLA','SQ','MSFT','CRSR','KO','AAPL',
-                     'GOOGL','AMZN','V','ABNB','NVDA','BRK-B','NET','JWN','ENPH',
-                     'TTD','W','RDFN','CSCO']
+    stock_symbols = ['ENPH','OTLY','PLTR','ZM','COIN','DKNG','AMD','RDFN','NFLX','JWN',
+                     'TTD','SQ','CRSR','AMZN','PYPL','HNST','ADBE','SBUX','NVDA','NKE',
+                     'SHOP','W','JPM','V','TTCF','GS','ETSY','MSFT','DIS','ABNB','SAM',
+                     'FB','GOOGL','BRK-B','WBA','NET','AAPL','KO','TSLA','BYND','CSCO']
 
     stocks_list = stockPrices.request_stock_prices(stock_symbols)
 
@@ -33,7 +32,7 @@ def main():
     for row_num, stock in enumerate(stocks_list):
         worksheet.write('A' + str(row_num + 1), stock.symbol)
         worksheet.write('B' + str(row_num + 1), stock.name)
-        worksheet.write('C' + str(row_num + 1), str(stock.price))
+        worksheet.write('C' + str(row_num + 1), stock.price)
 
     workbook.close()
 
