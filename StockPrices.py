@@ -32,10 +32,7 @@ class StockPrices(object):
         """
         yfApiUrl = 'https://yfapi.net/v6/finance/quote'
         headers = {"x-api-key": self.api_key}
-        stock_symbols_str = ''
-        for symbol in stock_symbols:
-            stock_symbols_str = stock_symbols_str + symbol + ','
-        stock_symbols_str = stock_symbols_str[:-1]
+        stock_symbols_str = ','.join(stock_symbols)
 
         try:
             response = requests.get(yfApiUrl, params={"region": "US", "lang": "en", "symbols": stock_symbols_str}, headers=headers)
@@ -76,5 +73,5 @@ class StockPrices(object):
                 return stocks_list
 
             else: # status code != 200 success
-                print(f"Response status code: {result.status_code}")
+                print(f"Response status code: {response.status_code}")
                 sys.exit(1)
