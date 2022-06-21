@@ -81,12 +81,14 @@ class StockPrices(object):
                 print(f"Response status code: {response.status_code}")
                 sys.exit(1)
 
-    def request_historical_stock_prices(self, stock_symbols):
+    def request_historical_stock_prices(self, stock_symbols, interval, time_range):
         """
         Request historical stock prices using Yahoo Finance API.
         Return a dictionary of stocks dataframes.
 
         :param stock_symbols: Stock symbols list of stocks to be retrieved
+        :param interval: Time interval for values-breakpoints retrieval
+        :param time_range: Time range for values-breakpoints retrieval
         :returns: dictionary of pd.Dataframes
         """
         yfApiUrl = 'https://yfapi.net/v8/finance/spark'
@@ -99,7 +101,7 @@ class StockPrices(object):
         stock_dataframes_dict = {}
         for chunk in stock_symbol_chunks_str:
             try:
-                response = requests.get(yfApiUrl, params={"interval": "1d", "range": "1y", "symbols": chunk},
+                response = requests.get(yfApiUrl, params={"interval": interval, "range": time_range, "symbols": chunk},
                                         headers=headers)
             except requests.RequestException as e:
                 print(f"An error has occurred while processing Yahoo Finance API - GET request.")
