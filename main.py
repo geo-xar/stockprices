@@ -1,9 +1,11 @@
 # Copyright 2022 by Georgios Charitos.
 # All rights reserved.
 
-import xlsxwriter
 import sys
 from datetime import datetime
+
+import streamlit as st
+
 from StockPrices import StockPrices
 
 
@@ -15,18 +17,27 @@ def main():
                      'GOOGL','MSFT','ADBE','COIN','NVDA','JPM','V','PYPL','NKE','SHOP',
                      'CRSR','TTCF','SBUX','NFLX','TTD','JWN','PLTR','ENPH']
 
-    stocks_list = stock_prices.request_stock_prices(stock_symbols)
+    # request real time stock data
+    real_time_stocks_df = stock_prices.request_real_time_stock_prices(stock_symbols)
+    # output them into an excel spreadsheet (commented out)
+    date_time_now_str = datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
+    # workbook_name = 'Stocks_' + date_time_now_str + '.xlsx'
+    # real_time_stocks_df.to_excel(workbook_name)
 
-    date_time_str = datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
-    workbook = xlsxwriter.Workbook('Stocks_' + date_time_str + '.xlsx')
-    worksheet = workbook.add_worksheet()
+    # request historical stock data
+    stock_history_dict_of_dfs = stock_prices.request_historical_stock_prices(stock_symbols)
 
-    for row_num, stock in enumerate(stocks_list):
-        worksheet.write('A' + str(row_num + 1), stock.symbol)
-        worksheet.write('B' + str(row_num + 1), stock.name)
-        worksheet.write('C' + str(row_num + 1), stock.price)
+    # Create the dashboard
+    st.set_page_config(layout="wide")
+    st.title("Stock Prices Application")
 
-    workbook.close()
+    st.header(f"Real time stock prices retrieved at {date_time_now_str}:")
+    st.dataframe(real_time_stocks_df)
+
+    st.header(f"Historical stock data:")
+    for company_name, stock_df in stock_history_dict_of_dfs.items():
+        st.subheader(company_name)
+        st.line_chart(stock_df)
 
 
 if __name__ == '__main__':
