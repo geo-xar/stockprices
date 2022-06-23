@@ -28,10 +28,6 @@ def main():
     st.header(f"Real time stock prices retrieved at {date_time_now_str}:")
     st.dataframe(st.session_state.real_time_stocks_df)
 
-    # output them into an excel spreadsheet (commented out)
-    # workbook_name = 'Stocks_' + date_time_now_str + '.xlsx'
-    # real_time_stocks_df.to_excel(workbook_name)
-
     # request historical stock data and display it
     st.header(f"Historical stock data:")
     st.subheader("Please select a different time interval and range if required:")
