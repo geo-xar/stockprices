@@ -11,6 +11,17 @@ The HTTP response is stored in an excel file located in the same directory the t
 If you don't have a unique Yahoo Finance API key then you can subscribe [here](https://www.yahoofinanceapi.com/)
 for a basic plan and be able to make up to 100 requests per day for free.
 
+## Installation
+
+```
+pip install -r requirements.txt
+```
+
+## Execution
+```
+streamlit run main.py <api_key>
+```
+
 ## Voluntary contribution
 
 You are very welcome to contribute in this project in any way you like (suggestions, requests, improvements).

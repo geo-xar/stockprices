@@ -1,9 +1,11 @@
 # Copyright 2022 by Georgios Charitos.
 # All rights reserved.
 
-import xlsxwriter
 import sys
 from datetime import datetime
+
+import streamlit as st
+
 from StockPrices import StockPrices
 
 
@@ -15,18 +17,32 @@ def main():
                      'GOOGL','MSFT','ADBE','COIN','NVDA','JPM','V','PYPL','NKE','SHOP',
                      'CRSR','TTCF','SBUX','NFLX','TTD','JWN','PLTR','ENPH']
 
-    stocks_list = stock_prices.request_stock_prices(stock_symbols)
+    # Create the dashboard
+    st.set_page_config(layout="wide")
+    st.title("Stock Prices Application")
 
-    date_time_str = datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
-    workbook = xlsxwriter.Workbook('Stocks_' + date_time_str + '.xlsx')
-    worksheet = workbook.add_worksheet()
+    # request real time stock data and display it
+    if "real_time_stocks_df" not in st.session_state:
+        st.session_state.real_time_stocks_df = stock_prices.request_real_time_stock_prices(stock_symbols)
+    date_time_now_str = datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
+    st.header(f"Real time stock prices retrieved at {date_time_now_str}:")
+    st.dataframe(st.session_state.real_time_stocks_df)
 
-    for row_num, stock in enumerate(stocks_list):
-        worksheet.write('A' + str(row_num + 1), stock.symbol)
-        worksheet.write('B' + str(row_num + 1), stock.name)
-        worksheet.write('C' + str(row_num + 1), stock.price)
+    # request historical stock data and display it
+    st.header(f"Historical stock data:")
+    st.subheader("Please select a different time interval and range if required:")
+    valid_intervals = ["1d", "1wk", "1mo", "1m", "5m", "15m"]
+    interval = st.selectbox("Time Interval", valid_intervals)
+    valid_ranges = ["1y", "5y", "max", "1d", "5d", "1mo", "3mo", "6mo"]
+    time_range = st.selectbox("Time Range", valid_ranges)
 
-    workbook.close()
+    if ("stock_history_dict_of_dfs", interval, time_range) not in st.session_state:
+        st.session_state[("stock_history_dict_of_dfs", interval, time_range)] = \
+            stock_prices.request_historical_stock_prices(stock_symbols, interval, time_range)
+
+    st.subheader("Select company's symbol to display historical stock price chart:")
+    symbol = st.selectbox("Symbol", st.session_state[("stock_history_dict_of_dfs", interval, time_range)].keys())
+    st.line_chart(st.session_state[("stock_history_dict_of_dfs", interval, time_range)][symbol])
 
 
 if __name__ == '__main__':
